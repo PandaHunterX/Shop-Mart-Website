@@ -1,5 +1,6 @@
 // components/ShoppingCart.js
 import React from 'react';
+import Image from 'next/image';
 
 export default function ShoppingCart({ cart, removeFromCart, clearCart, updateQuantity }) {
   const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -12,8 +13,9 @@ export default function ShoppingCart({ cart, removeFromCart, clearCart, updateQu
       ) : (
         <>
           <ul className="space-y-2">
-            {cart.map((item, index) => (
-              <li key={index} className="flex justify-between items-center p-2 border-b border-gray-200">
+            {cart.map((item) => (
+              <li key={item.id} className="flex justify-between items-center p-2 border-b border-gray-200">
+                <Image src={item.image} alt={item.name} width={50} height={50} className="rounded" />
                 <span>{item.name} (x{item.quantity})</span>
                 <span className="font-semibold">${item.price * item.quantity}</span>
                 <div className="flex items-center space-x-2">

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import products from '../../data/products.json';
+import Image from 'next/image'
 
 export default function ProductPage() {
   const router = useRouter();
@@ -22,6 +23,7 @@ export default function ProductPage() {
 
   return (
     <div className="container mx-auto p-4">
+      <Image src={product.image} alt={product.name} width={300} height={300} />
       <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
       <p className="mb-4">{product.description}</p>
       <p className="mb-4 font-bold">${product.price}</p>
