@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import ProductList from '../components/ProductList';
 import Link from 'next/link';
-
+import "./globals.css";
 
 export default function Home() {
   const [cart, setCart] = useState([]);
@@ -41,9 +41,14 @@ export default function Home() {
         <nav className="space-x-6">
           <Link
             href="cart"
-            className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-3 rounded-full shadow-md transition-all duration-200 text-lg"
+            className="relative bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-3 rounded-full shadow-md transition-all duration-200 text-lg"
           >
             🛒 Cart
+            {cart.length > 0 && (
+              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 text-sm flex items-center justify-center">
+                {cart.reduce((total, item) => total + item.quantity, 0)}
+              </span>
+            )}
           </Link>
           <Link
             href="profile"
@@ -51,6 +56,9 @@ export default function Home() {
           >
             👤 Profile
           </Link>
+          <Link href="admin" className="bg-yellow-500 text-white p-2 rounded-full shadow-md">
+          🔧 Admin
+        </Link>
         </nav>
       </div>
     </header>
