@@ -1,27 +1,28 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import ProductList from "../components/ProductList";
-import Link from "next/link";
+import { useState, useEffect, useRef } from 'react';
+import ProductList from '../components/ProductList';
+import Link from 'next/link';
+import "./globals.css";
 
 export default function Home() {
   const [cart, setCart] = useState([]);
   const productSectionRef = useRef(null);
 
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
     setCart(storedCart);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
   const addToCart = (product) => {
-    setCart((prevCart) => {
-      const existingProduct = prevCart.find((item) => item.id === product.id);
+    setCart(prevCart => {
+      const existingProduct = prevCart.find(item => item.id === product.id);
       if (existingProduct) {
-        return prevCart.map((item) =>
+        return prevCart.map(item =>
           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
       } else {
@@ -46,15 +47,20 @@ export default function Home() {
               Shop Mart
             </h1>
             <p className="mt-4 text-lg md:text-xl font-medium text-gray-200">
-              "Your one-stop destination for quality, style, and savings!"
+              &quot;Your one-stop destination for quality, style, and savings!&quot;
             </p>
           </div>
           <nav className="space-x-4">
             <Link
               href="cart"
-              className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-3 rounded-full shadow-md transition-all duration-200 text-lg"
+              className="relative bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-3 rounded-full shadow-md transition-all duration-200 text-lg"
             >
               🛒 Cart
+              {cart.length > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 text-sm flex items-center justify-center">
+                  {cart.reduce((total, item) => total + item.quantity, 0)}
+                </span>
+              )}
             </Link>
             <Link
               href="profile"
@@ -209,5 +215,5 @@ export default function Home() {
         </div>
       </footer>
     </div>
-  );
+);
 }
