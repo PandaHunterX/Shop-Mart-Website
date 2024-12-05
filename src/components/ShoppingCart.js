@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-export default function ShoppingCart({ cart, removeFromCart, clearCart, updateQuantity }) {
+export default function ShoppingCart({ cart, removeFromCart, clearCart, updateQuantity, handleCheckout }) {
   const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
@@ -49,6 +49,12 @@ export default function ShoppingCart({ cart, removeFromCart, clearCart, updateQu
             className="mt-4 bg-red-500 text-white p-2 rounded"
           >
             Clear Cart
+          </button>
+          <button
+            onClick={handleCheckout}
+            className="mt-4 bg-green-500 text-white p-2 rounded"
+          >
+            Checkout
           </button>
         </>
       )}
