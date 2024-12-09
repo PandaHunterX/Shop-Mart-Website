@@ -1,5 +1,14 @@
 [
-    { "id": 1,"image": "/images/image.jpg" ,"name": "Product 1", "price": 10, "description": "Description of Product 1" },
-    { "id": 2,"image": "/images/image2.jpg" , "name": "Product 2", "price": 20, "description": "Description of Product 2" },
-    { "id": 3,"image": "/images/image.jpg" , "name": "Product 3", "price": 30, "description": "Description of Product 3" }
+    { "id": 1, "image": "/images/image.jpg", "name": "Men's Classic T-Shirt", "price": 8, "description": "Comfortable cotton T-shirt available in multiple colors." },
+    { "id": 2, "image": "/images/image2.jpg", "name": "Women's Denim Jacket", "price": 25, "description": "Stylish and durable denim jacket with a slim fit." },
+    { "id": 3, "image": "/images/image.jpg", "name": "Kids' Sneakers", "price": 20, "description": "Lightweight and durable sneakers for active kids." },
+    { "id": 4, "image": "/images/image.jpg", "name": "Unisex Hoodie", "price": 15, "description": "Cozy fleece hoodie with a kangaroo pocket." },
+    { "id": 5, "image": "/images/image.jpg", "name": "Women's Summer Dress", "price": 18, "description": "Light and breezy summer dress with floral patterns." },
+    { "id": 6, "image": "/images/image.jpg", "name": "Men's Formal Shirt", "price": 20, "description": "Elegant formal shirt perfect for office wear or events." },
+    { "id": 7, "image": "/images/image.jpg", "name": "Sports Shorts", "price": 10, "description": "Breathable and flexible shorts ideal for workouts." },
+    { "id": 8, "image": "/images/image.jpg", "name": "Women's Ankle Boots", "price": 30, "description": "Stylish leather ankle boots with a comfortable sole." },
+    { "id": 9, "image": "/images/image.jpg", "name": "Men's Leather Belt", "price": 12, "description": "Premium leather belt with a classic buckle design." },
+    { "id": 10, "image": "/images/image.jpg", "name": "Casual Baseball Cap", "price": 7, "description": "Adjustable cotton cap with a curved brim." },
+    { "id": 11, "image": "/images/image.jpg", "name": "Women's Leggings", "price": 15, "description": "Soft and stretchable leggings suitable for any activity." },
+    { "id": 12, "image": "/images/image.jpg", "name": "Men's Running Shoes", "price": 35, "description": "High-performance running shoes with excellent grip." }
 ]
