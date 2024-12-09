@@ -10,10 +10,6 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        lightBlue: {
-          500: "#add8e6", // Primary light blue color
-          200: "#d6f5ff", // Lighter variant for hover or highlights
-        },
       },
     },
   },

@@ -1,3 +1,4 @@
+// pages/cart.js
 import { useState, useEffect } from 'react';
 import ShoppingCart from '../components/ShoppingCart';
 import Link from 'next/link';
@@ -58,34 +59,23 @@ export default function Cart() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* App Bar */}
-      <header className="bg-lightBlue-500 text-white py-4 shadow-md">
-        <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold">
-            Shopping App
-          </Link>
-          <div className="space-x-4">
-            <Link href="/" className="bg-white text-lightBlue-500 px-4 py-2 rounded-lg shadow-md hover:bg-lightBlue-200">
-              🏠 Home
-            </Link>
-            <Link href="/profile" className="bg-white text-lightBlue-500 px-4 py-2 rounded-lg shadow-md hover:bg-lightBlue-200">
-              👤 Profile
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container mx-auto p-6">
-        <ShoppingCart
-          cart={cart}
-          removeFromCart={removeFromCart}
-          clearCart={clearCart}
-          updateQuantity={updateQuantity}
-          handleCheckout={handleCheckout}
-        />
-      </main>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">Shopping Cart</h1>
+      <div className="flex justify-between mb-4">
+        <Link href="/" className="bg-blue-500 text-white p-2 rounded-full shadow-md">
+          🏠
+        </Link>
+        <Link href="/profile" className="bg-green-500 text-white p-2 rounded-full shadow-md">
+          👤
+        </Link>
+      </div>
+      <ShoppingCart
+        cart={cart}
+        removeFromCart={removeFromCart}
+        clearCart={clearCart}
+        updateQuantity={updateQuantity}
+        handleCheckout={handleCheckout}
+      />
     </div>
   );
 }
