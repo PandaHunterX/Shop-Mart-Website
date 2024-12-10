@@ -57,6 +57,9 @@ export default function ProductList({ addToCart }) {
           <option value="Women Clothes">Women Clothes</option>
           <option value="Kids Clothes">Kids Clothes</option>
           <option value="Unisex Clothes">Unisex Clothes</option>
+          <option value="Toys">Toys</option>
+          <option value="Appliances">Appliances</option>
+          <option value="Foods">Foods</option>
         </select>
       </div>
 
