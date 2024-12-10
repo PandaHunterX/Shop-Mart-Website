@@ -28,5 +28,9 @@
     { "id": 27, "image": "/images/image.jpg", "name": "Toaster", "price": 30, "description": "2-slice toaster with adjustable browning control.", "category": "Appliances" },
     { "id": 28, "image": "/images/image.jpg", "name": "Air Fryer", "price": 90, "description": "Compact air fryer with rapid air technology.", "category": "Appliances" },
     { "id": 29, "image": "/images/image.jpg", "name": "Orange Juice", "price": 3, "description": "Freshly squeezed orange juice, 1 liter.", "category": "Foods" },
-    { "id": 30, "image": "/images/image.jpg", "name": "Cheese", "price": 6, "description": "Aged cheddar cheese, 200 grams.", "category": "Foods" }
+    { "id": 30, "image": "/images/image.jpg", "name": "Cheese", "price": 6, "description": "Aged cheddar cheese, 200 grams.", "category": "Foods" },
+    { "id": 31, "image": "/images/image.jpg", "name": "Kids' Graphic T-Shirt", "price": 12, "description": "Vibrant T-shirt with fun prints perfect for kids.", "category": "Kids Clothes" },
+    { "id": 32, "image": "/images/image.jpg", "name": "Kids' Denim Shorts", "price": 15, "description": "Comfortable and stylish denim shorts for everyday wear.", "category": "Kids Clothes" },
+    { "id": 33, "image": "/images/image.jpg", "name": "Kids' Raincoat", "price": 18, "description": "Waterproof raincoat with a playful design.", "category": "Kids Clothes" },
+    { "id": 34, "image": "/images/image.jpg", "name": "Unisex Joggers", "price": 22, "description": "Soft and flexible joggers ideal for casual wear or workouts.", "category": "Unisex Clothes" }
 ]
