@@ -1,51 +1,31 @@
-// pages/products/[id].js
+import React from 'react';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import products from '../../data/products.json';
 import "../../app/globals.css";
 
-export default function ProductPage() {
+export default function ProductDetail({ cart = [], buyNow }) {
   const router = useRouter();
   const { id } = router.query;
-  const [product, setProduct] = useState(null);
-  const [cart, setCart] = useState([]);
 
-  useEffect(() => {
-    if (id) {
-      const foundProduct = products.find(p => p.id === parseInt(id));
-      setProduct(foundProduct);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
-    setCart(storedCart);
-  }, []);
-
-  const buyNow = (product) => {
-    const existingProduct = cart.find(item => item.id === product.id);
-    if (existingProduct) {
-      const updatedCart = cart.map(item =>
-        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-      );
-      localStorage.setItem('cart', JSON.stringify(updatedCart));
-      setCart(updatedCart);
-    } else {
-      const updatedCart = [...cart, { ...product, quantity: 1 }];
-      localStorage.setItem('cart', JSON.stringify(updatedCart));
-      setCart(updatedCart);
-    }
-    router.push('/cart');
-  };
+  // Find the product based on the id from the query
+  const product = products.find(p => p.id === parseInt(id));
 
   if (!product) {
-    return <div>Loading...</div>;
+    return <div>Product not found</div>;
   }
 
+  // Filter related products based on category and exclude the current product
+  const relatedProducts = products
+    .filter(p => p.category === product.category && p.id !== product.id)
+    .sort(() => 0.5 - Math.random()) // Randomize the selection
+    .slice(0, 3); // Select only 3 products
+
   return (
-    <div className="min-h-screen bg-sky-50 text-indigo-900 font-sans">
+    <div>
+      {/* Product Details */}
+      <div className="min-h-screen bg-sky-50 text-indigo-900 font-sans">
       <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg max-w-4xl">
         <h1 className="text-4xl font-extrabold mb-4 text-indigo-800">{product.name}</h1>
         <div className="relative w-full mb-8" style={{ paddingBottom: '56.25%' }}>
@@ -83,6 +63,44 @@ export default function ProductPage() {
         </Link>
       </div>
     </div>
+
+      {/* Related Products */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-semibold mb-4">Related Products</h2>
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {relatedProducts.map((relatedProduct) => (
+            <li
+              key={relatedProduct.id}
+              className="bg-white border rounded-lg shadow-sm overflow-hidden hover:shadow-md transition"
+            >
+              <div className="relative w-full h-56">
+                <Image
+                  src={relatedProduct.image}
+                  alt={relatedProduct.name}
+                  layout="fill"
+                  objectFit="cover"
+                  className="transition-transform hover:scale-105"
+                />
+              </div>
+              <div className="p-4">
+                <Link
+                  href={`/products/${relatedProduct.id}`}
+                  className="block text-lg font-semibold text-indigo-700 hover:text-sky-500 transition"
+                >
+                  {relatedProduct.name}
+                </Link>
+                <p className="text-gray-500 text-sm mt-1">${relatedProduct.price}</p>
+                <button
+                  onClick={() => buyNow(relatedProduct)}
+                  className="mt-4 w-full bg-indigo-500 text-white py-2 rounded-lg hover:bg-sky-400 transition"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
-  
 }
