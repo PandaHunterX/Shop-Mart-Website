@@ -1,120 +1,87 @@
 // pages/admin.js
 import { useState, useEffect } from 'react';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../app/firebase';
 import "../app/globals.css";
+
 export default function Admin() {
   const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-    setUsers(storedUsers);
+    const fetchUsers = async () => {
+      try {
+        const usersCollection = collection(db, 'users');
+        const usersSnapshot = await getDocs(usersCollection);
+        const usersList = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setUsers(usersList);
+      } catch (error) {
+        console.error("Error fetching users: ", error);
+      }
+    };
+
+    fetchUsers();
   }, []);
 
-  const handleOrderStatus = (userId, orderId, status) => {
-    const updatedUsers = users.map(user => {
-      if (user.id === userId) {
-        const updatedPurchaseHistory = user.purchaseHistory.map(order => {
-          if (order.id === orderId) {
-            if (status === 'Accepted') {
-              const arrivalTime = Math.floor(Math.random() * 60) + 1; // Random time between 1 and 60 minutes
-              setTimeout(() => {
-                updateOrderStatus(userId, orderId, 'Received');
-              }, arrivalTime * 60 * 1000); // Convert minutes to milliseconds
-              return { ...order, status, arrivalTime };
-            }
-            return { ...order, status };
-          }
-          return order;
-        });
-        return { ...user, purchaseHistory: updatedPurchaseHistory };
-      }
-      return user;
-    });
-    setUsers(updatedUsers);
-    localStorage.setItem('users', JSON.stringify(updatedUsers));
+  const fetchOrders = async (userId) => {
+    try {
+      const q = query(collection(db, 'orders'), where('userId', '==', userId));
+      const querySnapshot = await getDocs(q);
+      const ordersData = querySnapshot.docs.map(doc => doc.data());
+      setOrders(ordersData);
+    } catch (error) {
+      console.error("Error fetching orders: ", error);
+    }
   };
 
-  const updateOrderStatus = (userId, orderId, status) => {
-    const updatedUsers = users.map(user => {
-      if (user.id === userId) {
-        const updatedPurchaseHistory = user.purchaseHistory.map(order => {
-          if (order.id === orderId) {
-            return { ...order, status };
-          }
-          return order;
-        });
-        return { ...user, purchaseHistory: updatedPurchaseHistory };
-      }
-      return user;
-    });
-    setUsers(updatedUsers);
-    localStorage.setItem('users', JSON.stringify(updatedUsers));
-  };
-
-  const handleDeleteOrder = (userId, orderId) => {
-    const updatedUsers = users.map(user => {
-      if (user.id === userId) {
-        const updatedPurchaseHistory = user.purchaseHistory.filter(order => order.id !== orderId);
-        return { ...user, purchaseHistory: updatedPurchaseHistory };
-      }
-      return user;
-    });
-    setUsers(updatedUsers);
-    localStorage.setItem('users', JSON.stringify(updatedUsers));
+  const handleUserClick = (user) => {
+    setSelectedUser(user);
+    fetchOrders(user.id);
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Admin Panel</h1>
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-2">Users</h2>
-        <ul className="space-y-2">
-          {users.map(user => (
-            <li key={user.id} className="p-2 border-b border-gray-200">
-              <h3 className="text-xl font-semibold">{user.name} ({user.email})</h3>
-              <h4 className="text-lg font-semibold mt-2">Purchase History</h4>
-              {user.purchaseHistory && user.purchaseHistory.length > 0 ? (
-                <ul className="space-y-2">
-                  {user.purchaseHistory.map((order, index) => (
-                    <li key={index} className="flex justify-between items-center p-2 border-b border-gray-200">
-                      <div>
-                        <span>{order.name} (x{order.quantity})</span>
-                        <p className="text-sm text-gray-500">{order.timestamp}</p>
-                        <p className="text-sm text-gray-500">Status: {order.status || 'Pending'}</p>
-                        {order.status === 'Accepted' && (
-                          <p className="text-sm text-gray-500">Arrival in: {order.arrivalTime} minutes</p>
-                        )}
-                      </div>
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => handleOrderStatus(user.id, order.id, 'Accepted')}
-                          className="bg-green-500 text-white p-1 rounded"
-                          disabled={order.status && order.status !== 'Pending'}
-                        >
-                          Accept
-                        </button>
-                        <button
-                          onClick={() => handleOrderStatus(user.id, order.id, 'Declined')}
-                          className="bg-red-500 text-white p-1 rounded"
-                          disabled={order.status && order.status !== 'Pending'}
-                        >
-                          Decline
-                        </button>
-                        <button
-                          onClick={() => handleDeleteOrder(user.id, order.id)}
-                          className="bg-gray-500 text-white p-1 rounded"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No purchase history available.</p>
-              )}
-            </li>
-          ))}
-        </ul>
+    <div className="min-h-screen bg-sky-50 text-indigo-900 font-sans p-8">
+      <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <h2 className="text-2xl font-semibold mb-4">Users</h2>
+          <ul>
+            {users.map((user) => (
+              <li
+                key={user.id}
+                onClick={() => handleUserClick(user)}
+                className="mb-2 p-4 bg-white shadow rounded-lg cursor-pointer hover:bg-sky-100"
+              >
+                <h3 className="text-xl font-bold">{user.firstName} {user.lastName}</h3>
+                <p className="text-gray-500">{user.email}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          {selectedUser && (
+            <>
+              <h2 className="text-2xl font-semibold mb-4">Orders for {selectedUser.firstName} {selectedUser.lastName}</h2>
+              <ul>
+                {orders.map((order, index) => (
+                  <li key={index} className="mb-2 p-4 bg-white shadow rounded-lg">
+                    <h3 className="text-xl font-bold">Order {index + 1}</h3>
+                    <ul>
+                      {order.cart.map((item, idx) => (
+                        <li key={idx}>
+                          {item.name} - Quantity: {item.quantity}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="text-gray-500">Address: {order.address.barangay}, {order.address.district}</p>
+                    <p className="text-gray-500">Ordered on: {new Date(order.timestamp.seconds * 1000).toLocaleDateString()}</p>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

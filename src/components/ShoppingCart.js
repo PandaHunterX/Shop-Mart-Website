@@ -50,12 +50,6 @@ export default function ShoppingCart({ cart, removeFromCart, clearCart, updateQu
           >
             Clear Cart
           </button>
-          <button
-            onClick={handleCheckout}
-            className="mt-4 bg-green-500 text-white p-2 rounded"
-          >
-            Checkout
-          </button>
         </>
       )}
     </div>
