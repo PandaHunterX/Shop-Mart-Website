@@ -57,6 +57,10 @@ export default function Cart() {
     );
   };
 
+  const calculateTotalPrice = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
   const handleCheckout = async () => {
     if (cart.length === 0) {
       alert('Your cart is empty.');
@@ -70,6 +74,7 @@ export default function Cart() {
 
     if (user) {
       try {
+        const totalPrice = calculateTotalPrice();
         await addDoc(collection(db, 'orders'), {
           userId: user.uid,
           cart: cart,
@@ -77,6 +82,7 @@ export default function Cart() {
             district: district,
             barangay: barangay
           },
+          totalPrice: totalPrice,
           timestamp: new Date()
         });
         alert('Checkout successful! Order saved.');
@@ -130,18 +136,14 @@ export default function Cart() {
             value={barangay}
             onChange={(e) => setBarangay(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-lg"
-            disabled={!district}
           >
             <option value="">Select Barangay</option>
-            {district && districts[district].map((barangay) => (
+            {districts[district]?.map((barangay) => (
               <option key={barangay} value={barangay}>{barangay}</option>
             ))}
           </select>
         </div>
-        <button
-          onClick={handleCheckout}
-          className="bg-sky-500 text-white p-3 rounded-lg shadow-sm hover:bg-sky-600"
-        >
+        <button onClick={handleCheckout} className="w-full bg-sky-500 text-white p-3 rounded-lg shadow-sm hover:bg-sky-600">
           Checkout
         </button>
       </div>

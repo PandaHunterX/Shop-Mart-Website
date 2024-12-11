@@ -150,7 +150,7 @@ export default function Profile() {
             </button>
           </p>
           <div className="mt-4 text-center">
-            <Link href="/" className="text-sky-500 hover:underline">Go to Front Page
+            <Link href="/" className="text-sky-500 hover:underline">Go to Front Page 
             </Link>
           </div>
         </form>
@@ -174,10 +174,11 @@ export default function Profile() {
             <ul>
               {order.cart.map((item, idx) => (
                 <li key={idx}>
-                  {item.name} - Quantity: {item.quantity}
+                  {item.name} - Quantity: {item.quantity} - Price: ${item.price.toFixed(2)}
                 </li>
               ))}
             </ul>
+            <p className="text-gray-500">Total Price: ${order.totalPrice ? order.totalPrice.toFixed(2) : 'N/A'}</p>
             <p className="text-gray-500">Ordered on: {new Date(order.timestamp.seconds * 1000).toLocaleDateString()}</p>
           </li>
         ))}
