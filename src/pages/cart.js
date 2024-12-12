@@ -18,16 +18,16 @@ const districts = {
 export default function Cart() {
   const [cart, setCart] = useState([]);
   const [user, setUser] = useState(null);
-  const [district, setDistrict] = useState('');
-  const [barangay, setBarangay] = useState('');
+  const [district, setDistrict] = useState("");
+  const [barangay, setBarangay] = useState("");
 
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(storedCart);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function Cart() {
   }, []);
 
   const removeFromCart = (productId) => {
-    setCart(prevCart => prevCart.filter(item => item.id !== productId));
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
   const clearCart = () => {
@@ -50,8 +50,8 @@ export default function Cart() {
   };
 
   const updateQuantity = (productId, quantity) => {
-    setCart(prevCart => 
-      prevCart.map(item => 
+    setCart((prevCart) =>
+      prevCart.map((item) =>
         item.id === productId ? { ...item, quantity: Math.max(1, quantity) } : item
       )
     );
@@ -63,35 +63,35 @@ export default function Cart() {
 
   const handleCheckout = async () => {
     if (cart.length === 0) {
-      alert('Your cart is empty.');
+      alert("Your cart is empty.");
       return;
     }
 
     if (!district || !barangay) {
-      alert('Please select a district and barangay.');
+      alert("Please select a district and barangay.");
       return;
     }
 
     if (user) {
       try {
         const totalPrice = calculateTotalPrice();
-        await addDoc(collection(db, 'orders'), {
+        await addDoc(collection(db, "orders"), {
           userId: user.uid,
           cart: cart,
           address: {
             district: district,
-            barangay: barangay
+            barangay: barangay,
           },
           totalPrice: totalPrice,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
-        alert('Checkout successful! Order saved.');
+        alert("Checkout successful! Order saved.");
         clearCart();
       } catch (error) {
-        alert('Error saving order');
+        alert("Error saving order");
       }
     } else {
-      alert('Please log in to checkout.');
+      alert("Please log in to checkout.");
     }
   };
 
@@ -99,11 +99,11 @@ export default function Cart() {
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Shopping Cart</h1>
       <div className="flex justify-between mb-4">
-        <Link href="/" className="bg-blue-500 text-white p-2 rounded-full shadow-md">
-          🏠
+        <Link href="/" className="bg-blue-500 text-white p-2 rounded-full shadow-md hover:bg-blue-600">
+          🏠 Home
         </Link>
-        <Link href="/profile" className="bg-green-500 text-white p-2 rounded-full shadow-md">
-          👤
+        <Link href="/profile" className="bg-green-500 text-white p-2 rounded-full shadow-md hover:bg-green-600">
+          👤 Profile
         </Link>
       </div>
       <ShoppingCart
@@ -114,38 +114,59 @@ export default function Cart() {
       />
       <div className="mt-6">
         <h2 className="text-2xl font-semibold mb-4">Delivery Address</h2>
-        <div className="mb-4">
-          <label className="block text-gray-700">District</label>
-          <select
-            value={district}
-            onChange={(e) => {
-              setDistrict(e.target.value);
-              setBarangay('');
-            }}
-            className="w-full p-2 border border-gray-300 rounded-lg"
-          >
-            <option value="">Select District</option>
-            {Object.keys(districts).map((district) => (
-              <option key={district} value={district}>{district}</option>
-            ))}
-          </select>
+        <div className="bg-white shadow-lg rounded-lg p-6 space-y-4">
+          <div className="flex items-center space-x-3">
+            <div className="bg-blue-500 text-white p-3 rounded-full">
+              📍
+            </div>
+            <div className="flex-1">
+              <label className="block text-gray-700 font-medium">District</label>
+              <select
+                value={district}
+                onChange={(e) => {
+                  setDistrict(e.target.value);
+                  setBarangay("");
+                }}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="">Select District</option>
+                {Object.keys(districts).map((district) => (
+                  <option key={district} value={district}>
+                    {district}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="bg-green-500 text-white p-3 rounded-full">
+              🏠
+            </div>
+            <div className="flex-1">
+              <label className="block text-gray-700 font-medium">Barangay</label>
+              <select
+                value={barangay}
+                onChange={(e) => setBarangay(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="">Select Barangay</option>
+                {districts[district]?.map((barangay) => (
+                  <option key={barangay} value={barangay}>
+                    {barangay}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Barangay</label>
-          <select
-            value={barangay}
-            onChange={(e) => setBarangay(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg"
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={handleCheckout}
+            className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full shadow-lg hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-purple-400 transform transition-transform hover:scale-105"
           >
-            <option value="">Select Barangay</option>
-            {districts[district]?.map((barangay) => (
-              <option key={barangay} value={barangay}>{barangay}</option>
-            ))}
-          </select>
+            🛒 Proceed to Checkout
+          </button>
         </div>
-        <button onClick={handleCheckout} className="w-full bg-sky-500 text-white p-3 rounded-lg shadow-sm hover:bg-sky-600">
-          Checkout
-        </button>
       </div>
     </div>
   );
