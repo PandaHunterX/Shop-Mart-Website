@@ -6,7 +6,15 @@ import { auth, db } from '../app/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 
-const districts = { /* district data here */ };
+const districts = { 
+  "Arevalo, Iloilo City": ["Bonifacio (Arevalo)", "Calaparan", "Dulonan", "Mohon", "San Jose", "Santa Cruz", "Santo Domingo", "Santo Niño Norte", "Santo Niño Sur", "Sooc", "Yulo Drive"],
+  "City Proper, Iloilo City": ["Arsenal Aduana", "Baybay Tanza", "Bonifacio Tanza", "Concepcion-Montes", "Danao", "Delgado-Jalandoni-Bagumbayan", "Edganzon", "Flores", "General Hughes-Montes", "Gloria", "Hipodromo", "Inday", "Jalandoni-Wilson", "Kahirupan", "Kauswagan", "Legaspi dela Rama", "Liberation", "Mabolo-Delgado", "Magsaysay", "Malipayon-Delgado", "Maria Clara", "Monica Blumentritt", "Muelle Loney-Montes", "Nonoy", "Ortiz", "Osmeña", "President Roxas", "Rima-Rizal", "Rizal Estanzuela", "Rizal Ibarra", "Rizal Palapala I", "Rizal Palapala II", "Roxas Village", "Sampaguita", "San Agustin", "San Felix", "San Jose", "San Juan", "San Pedro", "Santa Filomena", "Santa Isabel", "Santo Rosario-Duran", "Tanza-Esperanza", "Tanza-Baybay", "Veterans Village", "Yulo-Arroyo"],
+  "Jaro, Iloilo City": ["Aguinaldo", "Arguelles", "Balabago", "Balantang", "Benedicto", "Bito-on", "Buhang", "Buntatala", "Calubihan", "Camalig", "Cubay", "Democracia", "Desamparados", "Dungon", "Dungon A", "Dungon B", "El 98 Castilla (Claudio Lopez)", "Fajardo", "Gustilo", "Hipodromo", "Javellana", "Kauswagan", "Laguda", "Lanit", "Lopez Jaena", "Lopez Jaena Norte", "Lopez Jaena Sur", "Luna", "Magsaysay", "Magsaysay Village", "Maria Clara", "Montinola", "Our Lady of Fatima", "Our Lady of Lourdes", "Quintin Salas", "San Isidro", "San Jose", "San Nicolas", "San Pedro", "San Roque", "Seminario", "Simon Ledesma", "Tabuc Suba", "Tacas", "Taytay Zone II", "Tiza", "Ungka", "Veterans Village", "West Timawa"],
+  "La Paz, Iloilo City": ["Aguinaldo", "Baldoza", "Bantud", "Banuyao", "Burgos-Mabini-Plaza", "Caingin", "Divinagracia", "Gustilo", "Hinactacan", "Ingore", "Jereos", "Laguda", "Lopez Jaena Norte", "Lopez Jaena Sur", "Luna", "MacArthur", "Magdalo", "Magsaysay Village", "Nabitasan", "Railway", "Rizal", "San Isidro", "San Nicolas", "Tabuc Suba", "Ticud"],
+  "Lapuz, Iloilo City": ["Alalasan Lapuz", "Don Esteban-Lapuz", "Jalandoni Estate-Lapuz", "Lapuz Norte", "Lapuz Sur", "Libertad-Lapuz", "Loboc-Lapuz", "Mansaya-Lapuz", "Obrero-Lapuz", "Progreso-Lapuz", "Punong-Lapuz"],
+  "Mandurriao, Iloilo City": ["Abeto Mirasol Taft South (Quirino Abeto)", "Airport (Tabucan Airport)", "Bakhaw", "Bolilao", "Buhang Taft North", "Calahunan", "Dungon C", "Guzman-Jesena", "Hibao-an Norte", "Hibao-an Sur", "Iloilo City Estates", "Kauswagan", "Lapuz Norte", "Lapuz Sur", "Libertad-Lapuz", "Loboc-Lapuz", "Mansaya-Lapuz", "Obrero-Lapuz", "Oñate de Leon", "PHHC Block 17", "PHHC Block 22 NHA", "Q. Abeto", "Q. Abeto Mirasol", "Q. Abeto Mirasol Taft South"]
+
+ };
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
@@ -132,7 +140,7 @@ export default function Cart() {
                   setDistrict(e.target.value);
                   setBarangay("");
                 }}
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
               >
                 <option value="">Select District</option>
                 {Object.keys(districts).map((district) => (
@@ -150,7 +158,7 @@ export default function Cart() {
               <select
                 value={barangay}
                 onChange={(e) => setBarangay(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
               >
                 <option value="">Select Barangay</option>
                 {districts[district]?.map((barangay) => (
