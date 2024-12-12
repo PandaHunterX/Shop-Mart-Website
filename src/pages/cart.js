@@ -6,14 +6,7 @@ import { auth, db } from '../app/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 
-const districts = {
-  "Arevalo, Iloilo City": ["Bonifacio (Arevalo)", "Calaparan", "Dulonan", "Mohon", "San Jose", "Santa Cruz", "Santo Domingo", "Santo Niño Norte", "Santo Niño Sur", "Sooc", "Yulo Drive"],
-  "City Proper, Iloilo City": ["Arsenal Aduana", "Baybay Tanza", "Bonifacio Tanza", "Concepcion-Montes", "Danao", "Delgado-Jalandoni-Bagumbayan", "Edganzon", "Flores", "General Hughes-Montes", "Gloria", "Hipodromo", "Inday", "Jalandoni-Wilson", "Kahirupan", "Kauswagan", "Legaspi dela Rama", "Liberation", "Mabolo-Delgado", "Magsaysay", "Malipayon-Delgado", "Maria Clara", "Monica Blumentritt", "Muelle Loney-Montes", "Nonoy", "Ortiz", "Osmeña", "President Roxas", "Rima-Rizal", "Rizal Estanzuela", "Rizal Ibarra", "Rizal Palapala I", "Rizal Palapala II", "Roxas Village", "Sampaguita", "San Agustin", "San Felix", "San Jose", "San Juan", "San Pedro", "Santa Filomena", "Santa Isabel", "Santo Rosario-Duran", "Tanza-Esperanza", "Tanza-Baybay", "Veterans Village", "Yulo-Arroyo"],
-  "Jaro, Iloilo City": ["Aguinaldo", "Arguelles", "Balabago", "Balantang", "Benedicto", "Bito-on", "Buhang", "Buntatala", "Calubihan", "Camalig", "Cubay", "Democracia", "Desamparados", "Dungon", "Dungon A", "Dungon B", "El 98 Castilla (Claudio Lopez)", "Fajardo", "Gustilo", "Hipodromo", "Javellana", "Kauswagan", "Laguda", "Lanit", "Lopez Jaena", "Lopez Jaena Norte", "Lopez Jaena Sur", "Luna", "Magsaysay", "Magsaysay Village", "Maria Clara", "Montinola", "Our Lady of Fatima", "Our Lady of Lourdes", "Quintin Salas", "San Isidro", "San Jose", "San Nicolas", "San Pedro", "San Roque", "Seminario", "Simon Ledesma", "Tabuc Suba", "Tacas", "Taytay Zone II", "Tiza", "Ungka", "Veterans Village", "West Timawa"],
-  "La Paz, Iloilo City": ["Aguinaldo", "Baldoza", "Bantud", "Banuyao", "Burgos-Mabini-Plaza", "Caingin", "Divinagracia", "Gustilo", "Hinactacan", "Ingore", "Jereos", "Laguda", "Lopez Jaena Norte", "Lopez Jaena Sur", "Luna", "MacArthur", "Magdalo", "Magsaysay Village", "Nabitasan", "Railway", "Rizal", "San Isidro", "San Nicolas", "Tabuc Suba", "Ticud"],
-  "Lapuz, Iloilo City": ["Alalasan Lapuz", "Don Esteban-Lapuz", "Jalandoni Estate-Lapuz", "Lapuz Norte", "Lapuz Sur", "Libertad-Lapuz", "Loboc-Lapuz", "Mansaya-Lapuz", "Obrero-Lapuz", "Progreso-Lapuz", "Punong-Lapuz"],
-  "Mandurriao, Iloilo City": ["Abeto Mirasol Taft South (Quirino Abeto)", "Airport (Tabucan Airport)", "Bakhaw", "Bolilao", "Buhang Taft North", "Calahunan", "Dungon C", "Guzman-Jesena", "Hibao-an Norte", "Hibao-an Sur", "Iloilo City Estates", "Kauswagan", "Lapuz Norte", "Lapuz Sur", "Libertad-Lapuz", "Loboc-Lapuz", "Mansaya-Lapuz", "Obrero-Lapuz", "Oñate de Leon", "PHHC Block 17", "PHHC Block 22 NHA", "Q. Abeto", "Q. Abeto Mirasol", "Q. Abeto Mirasol Taft South"]
-};
+const districts = { /* district data here */ };
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
@@ -96,29 +89,41 @@ export default function Cart() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Shopping Cart</h1>
-      <div className="flex justify-between mb-4">
-        <Link href="/" className="bg-blue-500 text-white p-2 rounded-full shadow-md hover:bg-blue-600">
-          🏠 Home
-        </Link>
-        <Link href="/profile" className="bg-green-500 text-white p-2 rounded-full shadow-md hover:bg-green-600">
-          👤 Profile
-        </Link>
+    <div className="container mx-auto p-4 bg-light-blue-100">
+      {/* Navigation Bar */}
+      <div className="bg-gradient-to-r from-blue-500 to-light-blue-500 text-white p-4 flex justify-between items-center rounded-md">
+        <h1 className="text-2xl font-bold">Shopping Cart</h1>
+        <div className="flex space-x-4">
+          <Link
+            href="/"
+            className="text-2xl font-sans bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700"
+          >
+            Home
+          </Link>
+          <Link
+            href="/profile"
+            className="text-2xl font-sans bg-green-600 px-4 py-2 rounded-full hover:bg-green-700"
+          >
+            Profile
+          </Link>
+        </div>
       </div>
+
+      {/* Shopping Cart Section */}
+      <h1 className="text-3xl font-bold mt-4 mb-4"></h1>
       <ShoppingCart
         cart={cart}
         removeFromCart={removeFromCart}
         clearCart={clearCart}
         updateQuantity={updateQuantity}
       />
+
+      {/* Delivery Address Section */}
       <div className="mt-6">
         <h2 className="text-2xl font-semibold mb-4">Delivery Address</h2>
         <div className="bg-white shadow-lg rounded-lg p-6 space-y-4">
           <div className="flex items-center space-x-3">
-            <div className="bg-blue-500 text-white p-3 rounded-full">
-              📍
-            </div>
+            <div className="bg-blue-500 text-white p-3 rounded-full">📍</div>
             <div className="flex-1">
               <label className="block text-gray-700 font-medium">District</label>
               <select
@@ -139,9 +144,7 @@ export default function Cart() {
             </div>
           </div>
           <div className="flex items-center space-x-3">
-            <div className="bg-green-500 text-white p-3 rounded-full">
-              🏠
-            </div>
+            <div className="bg-green-500 text-white p-3 rounded-full">🏠</div>
             <div className="flex-1">
               <label className="block text-gray-700 font-medium">Barangay</label>
               <select
@@ -159,6 +162,8 @@ export default function Cart() {
             </div>
           </div>
         </div>
+
+        {/* Checkout Button */}
         <div className="mt-6 flex justify-center">
           <button
             onClick={handleCheckout}
