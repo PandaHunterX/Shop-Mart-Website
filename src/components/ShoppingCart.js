@@ -11,49 +11,51 @@ export default function ShoppingCart({
 
   return (
     <div className="p-6 bg-white shadow-lg rounded-lg max-w-xl mx-auto">
-      <h2 className="text-3xl font-semibold mb-6 text-gray-800">Shopping Cart</h2>
+      <h2 className="text-3xl font-semibold mb-6 text-blue-950 md:text-2xl sm:text-xl">Your Items</h2>
       {cart.length === 0 ? (
-        <p className="text-gray-500 text-center">Your cart is empty.</p>
+        <p className="text-gray-500 text-center text-base sm:text-sm">Your cart is empty.</p>
       ) : (
         <>
-          <ul className="space-y-4">
+          <ul className="space-y-4 sm:space-y-3">
             {cart.map((item) => (
               <li
                 key={item.id}
-                className="flex items-center justify-between gap-4 p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                className="flex items-center justify-between gap-4 p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow sm:gap-2 sm:p-2"
               >
                 <Image
                   src={item.image}
                   alt={item.name}
-                  width={60}
-                  height={60}
-                  className="rounded object-cover"
+                  width={100}
+                  height={100}
+                  className="rounded object-cover md:w-20 md:h-20 w-16 h-16"
                 />
                 <div className="flex-1">
-                  <p className="text-gray-800 font-medium text-lg">{item.name}</p>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-gray-800 font-medium md:text-lg text-sm">
+                    {item.name}
+                  </p>
+                  <p className="text-gray-500 md:text-sm text-xs">
                     Quantity: <strong>{item.quantity}</strong>
                   </p>
                 </div>
-                <p className="text-lg font-semibold text-gray-700">
-                  ${item.price * item.quantity}
+                <p className="font-semibold text-gray-700 md:text-lg text-sm">
+                  ₱ {item.price * item.quantity}
                 </p>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 sm:space-x-1">
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                    className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600"
+                    className="flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 md:w-8 md:h-8 md:text-base w-6 h-6 text-sm"
                   >
                     &minus;
                   </button>
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600"
+                    className="flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 md:w-8 md:h-8 md:text-base w-6 h-6 text-sm"
                   >
                     +
                   </button>
                   <button
                     onClick={() => removeFromCart(item.id)}
-                    className="w-8 h-8 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-600 text-white"
+                    className="flex items-center justify-center rounded-full bg-red-500 hover:bg-red-600 text-white md:w-8 md:h-8 md:text-base w-6 h-6 text-sm"
                   >
                     ✕
                   </button>
@@ -62,12 +64,12 @@ export default function ShoppingCart({
             ))}
           </ul>
           <div className="mt-6 flex items-center justify-between">
-            <span className="text-2xl font-bold text-gray-800">
-              Total: ${totalPrice.toFixed(2)}
+            <span className="md:text-2xl font-bold text-gray-800 text-lg">
+              Total: ₱ {totalPrice.toFixed(2)}
             </span>
             <button
               onClick={clearCart}
-              className="px-4 py-2 text-white bg-red-500 rounded-lg shadow hover:bg-red-600 transition-all"
+              className="md:px-4 md:py-2 text-white bg-red-500 rounded-lg shadow hover:bg-red-600 transition-all md:text-base px-3 py-1 text-sm"
             >
               Clear Cart
             </button>

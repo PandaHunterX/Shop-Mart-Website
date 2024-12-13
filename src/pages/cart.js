@@ -104,13 +104,13 @@ export default function Cart() {
         <div className="flex space-x-4">
           <Link
             href="/"
-            className="text-2xl font-sans bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700"
+            className="md:text-2xl text-lg font-sans bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700"
           >
             Home
           </Link>
           <Link
             href="/profile"
-            className="text-2xl font-sans bg-green-600 px-4 py-2 rounded-full hover:bg-green-700"
+            className="md:text-2xl text-lg font-sans bg-blue-800 px-4 py-2 rounded-full hover:bg-blue-700"
           >
             Profile
           </Link>
@@ -128,19 +128,24 @@ export default function Cart() {
 
       {/* Delivery Address Section */}
       <div className="mt-6">
-        <h2 className="text-2xl font-semibold mb-4">Delivery Address</h2>
-        <div className="bg-white shadow-lg rounded-lg p-6 space-y-4">
-          <div className="flex items-center space-x-3">
-            <div className="bg-blue-500 text-white p-3 rounded-full">📍</div>
+        <h2 className="text-2xl font-semibold mb-4 text-blue-950">Delivery Address</h2>
+        <div className="bg-white shadow-lg rounded-lg p-6 space-y-6">
+          {/* District */}
+          <div className="flex items-center space-x-4">
+            <div className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg">
+              📍
+            </div>
             <div className="flex-1">
-              <label className="block text-gray-700 font-medium">District</label>
+              <label className="block text-gray-700 font-bold text-base md:text-lg mb-1">
+                District
+              </label>
               <select
                 value={district}
                 onChange={(e) => {
                   setDistrict(e.target.value);
                   setBarangay("");
                 }}
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
+                className="w-full p-3 border text-sm md:text-base border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
               >
                 <option value="">Select District</option>
                 {Object.keys(districts).map((district) => (
@@ -151,14 +156,20 @@ export default function Cart() {
               </select>
             </div>
           </div>
-          <div className="flex items-center space-x-3">
-            <div className="bg-green-500 text-white p-3 rounded-full">🏠</div>
+
+          {/* Barangay */}
+          <div className="flex items-center space-x-4">
+            <div className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg">
+              🏠
+            </div>
             <div className="flex-1">
-              <label className="block text-gray-700 font-medium">Barangay</label>
+              <label className="block text-gray-700 font-bold text-base md:text-lg mb-1">
+                Barangay
+              </label>
               <select
                 value={barangay}
                 onChange={(e) => setBarangay(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
+                className="w-full p-3 border text-sm md:text-base border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
               >
                 <option value="">Select Barangay</option>
                 {districts[district]?.map((barangay) => (
@@ -170,6 +181,7 @@ export default function Cart() {
             </div>
           </div>
         </div>
+      </div>
 
         {/* Checkout Button */}
         <div className="mt-6 flex justify-center">
@@ -181,6 +193,5 @@ export default function Cart() {
           </button>
         </div>
       </div>
-    </div>
   );
 }
