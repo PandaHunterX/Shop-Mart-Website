@@ -96,6 +96,7 @@ export default function Cart() {
   };
 
   return (
+<<<<<<< Updated upstream
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Shopping Cart</h1>
       <div className="flex justify-between mb-4">
@@ -106,6 +107,30 @@ export default function Cart() {
           👤
         </Link>
       </div>
+=======
+    <div className="container mx-auto p-4 bg-light-blue-100">
+      {/* Navigation Bar */}
+      <div className="bg-gradient-to-r from-blue-500 to-light-blue-500 text-white p-4 flex justify-between items-center rounded-md">
+        <h1 className="text-xl md:text-2xl font-bold">Shopping Cart</h1>
+        <div className="flex space-x-4">
+          <Link
+            href="/"
+            className="text-xl md:text-2xl font-sans bg-blue-600 md:px-4 md:py-2 px-2 py-1 rounded-full hover:bg-blue-700"
+          >
+            Home
+          </Link>
+          <Link
+            href="/profile"
+            className="text-xl md:text-2xl font-sans bg-blue-800 md:px-4 md:py-2 px-2 py-1 rounded-full hover:bg-blue-700"
+          >
+            Profile
+          </Link>
+        </div>
+      </div>
+
+      {/* Shopping Cart Section */}
+      <div className='mt-4 mb-4'></div>
+>>>>>>> Stashed changes
       <ShoppingCart
         cart={cart}
         removeFromCart={removeFromCart}
@@ -113,6 +138,7 @@ export default function Cart() {
         updateQuantity={updateQuantity}
       />
       <div className="mt-6">
+<<<<<<< Updated upstream
         <h2 className="text-2xl font-semibold mb-4">Delivery Address</h2>
         <div className="mb-4">
           <label className="block text-gray-700">District</label>
@@ -123,6 +149,68 @@ export default function Cart() {
               setBarangay('');
             }}
             className="w-full p-2 border border-gray-300 rounded-lg"
+=======
+      <h2 className="text-2xl font-semibold mb-4 text-blue-950">Delivery Address</h2>
+      <div className="bg-white shadow-lg rounded-lg p-6 space-y-6">
+        {/* District */}
+        <div className="flex items-center space-x-4">
+          <div className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg">
+            📍
+          </div>
+          <div className="flex-1">
+            <label className="block text-gray-700 font-bold text-base md:text-lg mb-1">
+              District
+            </label>
+            <select
+              value={district}
+              onChange={(e) => {
+                setDistrict(e.target.value);
+                setBarangay("");
+              }}
+              className="w-full p-3 border text-sm md:text-base border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
+            >
+              <option value="">Select District</option>
+              {Object.keys(districts).map((district) => (
+                <option key={district} value={district}>
+                  {district}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+    {/* Barangay */}
+    <div className="flex items-center space-x-4">
+      <div className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg">
+        🏠
+      </div>
+      <div className="flex-1">
+        <label className="block text-gray-700 font-bold text-base md:text-lg mb-1">
+          Barangay
+        </label>
+        <select
+          value={barangay}
+          onChange={(e) => setBarangay(e.target.value)}
+          className="w-full p-3 border text-sm md:text-base border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
+        >
+          <option value="">Select Barangay</option>
+          {districts[district]?.map((barangay) => (
+            <option key={barangay} value={barangay}>
+              {barangay}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  </div>
+
+
+        {/* Checkout Button */}
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={handleCheckout}
+            className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full shadow-lg hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-purple-400 transform transition-transform hover:scale-105"
+>>>>>>> Stashed changes
           >
             <option value="">Select District</option>
             {Object.keys(districts).map((district) => (

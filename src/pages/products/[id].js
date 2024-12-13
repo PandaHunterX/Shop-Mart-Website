@@ -1,20 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
 import products from '../../data/products.json';
 import "../../app/globals.css";
 
-export default function ProductDetail({ cart = [], buyNow }) {
+export default function ProductDetail({}) {
   const router = useRouter();
   const { id } = router.query;
 
   // Find the product based on the id from the query
   const product = products.find(p => p.id === parseInt(id));
 
+  const [cart, setCart] = useState([]);
+
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    setCart(storedCart);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
   if (!product) {
     return <div>Product not found</div>;
   }
+
+  const handleAddToCart = (product) => {
+    setCart((prevCart) => {
+      const existingProduct = prevCart.find((item) => item.id === product.id);
+      if (existingProduct) {
+        return prevCart.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      } else {
+        return [...prevCart, { ...product, quantity: 1 }];
+      }
+    });
+  };
+
+  const handleBuyNow = (product) => {
+    handleAddToCart(product);
+    router.push('/cart');
+  };
 
   // Filter related products based on category and exclude the current product
   const relatedProducts = products
@@ -42,11 +71,11 @@ export default function ProductDetail({ cart = [], buyNow }) {
           />
         </div>
         <p className="mb-6 text-gray-700 leading-relaxed text-lg">{product.description}</p>
-        <p className="mb-6 text-2xl font-semibold text-indigo-900">${product.price}</p>
+        <p className="mb-6 text-2xl font-semibold text-indigo-900">₱ {product.price}</p>
           
         <div className="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0">
           <button
-            onClick={() => buyNow(product)}
+            onClick={() => handleBuyNow(product)}
             className="bg-indigo-500 text-white px-8 py-3 rounded-full shadow-md hover:bg-indigo-400 hover:shadow-lg transition-transform transform hover:scale-105 duration-200"
           >
             Buy Now
@@ -100,9 +129,9 @@ export default function ProductDetail({ cart = [], buyNow }) {
                 >
                   {relatedProduct.name}
                 </Link>
-                <p className="text-gray-500 text-sm mt-1 font-semibold">${relatedProduct.price}</p>
+                <p className="text-gray-500 text-sm mt-1 font-semibold">₱ {relatedProduct.price}</p>
                 <button
-                  onClick={() => buyNow(relatedProduct)}
+                  onClick={() => handleAddToCart(relatedProduct)}
                   className="mt-4 w-full bg-indigo-500 text-white py-2 rounded-lg hover:bg-sky-400 transition hover:shadow-lg"
                 >
                   Add to Cart
