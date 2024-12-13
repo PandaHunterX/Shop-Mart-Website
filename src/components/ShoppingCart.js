@@ -27,35 +27,35 @@ export default function ShoppingCart({
                   alt={item.name}
                   width={100}
                   height={100}
-                  className="rounded object-cover md:w-20 md:h-20 w-16 h-16"
+                  className="rounded object-cover md:w-20 md:h-20 w-12 h-12"
                 />
                 <div className="flex-1">
-                  <p className="text-gray-800 font-medium md:text-lg text-sm">
+                  <p className="text-gray-800 font-medium md:text-lg text-xs">
                     {item.name}
                   </p>
                   <p className="text-gray-500 md:text-sm text-xs">
                     Quantity: <strong>{item.quantity}</strong>
                   </p>
                 </div>
-                <p className="font-semibold text-gray-700 md:text-lg text-sm">
+                <p className="font-semibold text-gray-700 md:text-lg text-xs">
                   ₱ {item.price * item.quantity}
                 </p>
                 <div className="flex items-center space-x-2 sm:space-x-1">
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                    className="flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 md:w-8 md:h-8 md:text-base w-6 h-6 text-sm"
+                    className="flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 md:w-8 md:h-8 md:text-base w-4 h-4 text-xs"
                   >
                     &minus;
                   </button>
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    className="flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 md:w-8 md:h-8 md:text-base w-6 h-6 text-sm"
+                    className="flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 md:w-8 md:h-8 md:text-base w-4 h-4 text-xs"
                   >
                     +
                   </button>
                   <button
                     onClick={() => removeFromCart(item.id)}
-                    className="flex items-center justify-center rounded-full bg-red-500 hover:bg-red-600 text-white md:w-8 md:h-8 md:text-base w-6 h-6 text-sm"
+                    className="flex items-center justify-center rounded-full bg-red-500 hover:bg-red-600 text-white md:w-8 md:h-8 md:text-base w-4 h-4 text-xs"
                   >
                     ✕
                   </button>
