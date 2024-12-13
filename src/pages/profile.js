@@ -200,12 +200,12 @@ export default function Profile() {
             <ul className="space-y-1">
               {order.cart.map((item, idx) => (
                 <li key={idx} className="text-gray-700">
-                  {item.name} - Quantity: {item.quantity} - Price: ${item.price.toFixed(2)} - Total: $
+                  {item.name} - Quantity: {item.quantity} - Price: ₱ {item.price.toFixed(2)} - Total: ₱ 
                   {(item.price * item.quantity).toFixed(2)}
                 </li>
               ))}
             </ul>
-            <p className="text-gray-500 mt-2">Total Price: ${order.totalPrice ? order.totalPrice.toFixed(2) : 'N/A'}</p>
+            <p className="text-gray-500 mt-2">Total Price: ₱ {order.totalPrice ? order.totalPrice.toFixed(2) : 'N/A'}</p>
             <p className="text-gray-500">Ordered on: {new Date(order.timestamp.seconds * 1000).toLocaleDateString()}</p>
             <p className="text-gray-500">Address:  {order.address.barangay}, {order.address.district}</p>
           </li>

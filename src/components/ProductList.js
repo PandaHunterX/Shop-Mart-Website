@@ -63,14 +63,14 @@ export default function ProductList({ addToCart }) {
         </select>
       </div>
 
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <ul className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {currentProducts.map((product) => (
           <li
             key={product.id}
-            className="bg-white border rounded-lg shadow-sm overflow-hidden hover:shadow-md transition"
+            className="bg-white border rounded-md shadow-sm overflow-hidden hover:shadow-md transition transform scale-95 md:scale-100"
           >
             {/* Product Image */}
-            <div className="relative w-full h-56">
+            <div className="relative w-full h-40 sm:h-48 md:h-56">
               <Image
                 src={product.image}
                 alt={product.name}
@@ -81,17 +81,17 @@ export default function ProductList({ addToCart }) {
             </div>
 
             {/* Product Details */}
-            <div className="p-4">
+            <div className="p-2 sm:p-4">
               <Link
                 href={`/products/${product.id}`}
-                className="block text-lg font-semibold text-indigo-700 hover:text-sky-500 transition"
+                className="block text-xs sm:text-lg font-semibold text-indigo-700 hover:text-sky-500 transition"
               >
                 {product.name}
               </Link>
-              <p className="text-gray-500 text-sm mt-1">${product.price}</p>
+              <p className="text-gray-500 text-xs sm:text-sm mt-1">₱ {product.price}</p>
               <button
                 onClick={() => addToCart(product)}
-                className="mt-4 w-full bg-indigo-500 text-white py-2 rounded-lg hover:bg-sky-400 transition"
+                className="mt-3 w-full bg-indigo-500 text-white py-1 sm:py-2 rounded-lg hover:bg-sky-400 transition text-xs sm:text-sm"
               >
                 Add to Cart
               </button>
@@ -100,8 +100,9 @@ export default function ProductList({ addToCart }) {
         ))}
       </ul>
 
+
       {/* Pagination Controls */}
-      <div className="flex justify-center mt-6 space-x-2">
+      <div className="flex justify-center mt-6 space-x-1 md:space-x-2">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
@@ -113,7 +114,7 @@ export default function ProductList({ addToCart }) {
           <button
             key={number}
             onClick={() => setCurrentPage(number)}
-            className={`px-4 py-2 rounded-lg transition ${currentPage === number ? 'bg-indigo-500 text-white' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
+            className={`px-2 py-1 md:px-4 md:py-2 rounded-lg transition ${currentPage === number ? 'bg-indigo-500 text-white' : 'bg-gray-300 text-gray-700 hover:bg-gray-400'}`}
           >
             {number}
           </button>

@@ -132,11 +132,11 @@ export default function Admin() {
                     <ul>
                       {order.cart.map((item, idx) => (
                         <li key={idx}>
-                          {item.name} - Quantity: {item.quantity} - Price: ${item.price.toFixed(2)} - Total: ${(item.price * item.quantity).toFixed(2)}
+                          {item.name} - Quantity: {item.quantity} - Price: ₱ {item.price.toFixed(2)} - Total: ₱ {(item.price * item.quantity).toFixed(2)}
                         </li>
                       ))}
                     </ul>
-                    <p className="text-gray-500">Total Price: ${order.totalPrice ? order.totalPrice.toFixed(2) : 'N/A'}</p>
+                    <p className="text-gray-500">Total Price: ₱ {order.totalPrice ? order.totalPrice.toFixed(2) : 'N/A'}</p>
                     <p className="text-gray-500">Ordered on: {new Date(order.timestamp.seconds * 1000).toLocaleDateString()}</p>
                     <p className="text-gray-500">Address: {order.address.district}, {order.address.barangay}</p>
                   </li>

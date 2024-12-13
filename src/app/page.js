@@ -50,25 +50,25 @@ export default function Home() {
               &quot;Your one-stop destination for quality, style, and savings!&quot;
             </p>
           </div>
-          <nav className="space-x-4">
-            <Link
-              href="cart"
-              className="relative bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-3 rounded-full shadow-md transition-all duration-200 text-lg"
-            >
-              🛒 Cart
-              {cart.length > 0 && (
-                <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 text-sm flex items-center justify-center">
-                  {cart.reduce((total, item) => total + item.quantity, 0)}
-                </span>
-              )}
-            </Link>
-            <Link
-              href="profile"
-              className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-3 rounded-full shadow-md transition-all duration-200 text-lg"
-            >
-              👤 Profile
-            </Link>
-          </nav>
+          <nav className="flex flex-row items-center space-x-4 space-y-0 sm:space-x-0 sm:space-y-2 sm:flex-col-reverse lg:space-x-4 lg:space-y-0 lg:flex-row">
+          <Link
+            href="cart"
+            className="relative bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-3 rounded-full shadow-md transition-all duration-200 text-lg"
+          >
+            🛒 Cart
+            {cart.length > 0 && (
+              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 text-sm flex items-center justify-center">
+                {cart.reduce((total, item) => total + item.quantity, 0)}
+              </span>
+            )}
+          </Link>
+          <Link
+            href="profile"
+            className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-3 rounded-full shadow-md transition-all duration-200 text-lg"
+          >
+            👤 Profile
+          </Link>
+        </nav>
         </div>
       </header>
 
