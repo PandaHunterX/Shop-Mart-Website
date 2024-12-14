@@ -69,7 +69,78 @@ export default function Profile() {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-sky-50 text-indigo-900 font-sans">
-        {/* Login/Signup Form */}
+        <div className="max-w-md w-full bg-white p-8 shadow-lg rounded-lg border-t-4 border-sky-500">
+          <h1 className="text-5xl font-extrabold text-sky-700 mb-6 text-center">
+            {isSignUp ? 'Sign Up' : 'Login'}
+          </h1>
+          <form onSubmit={isSignUp ? handleSignUp : handleLogin} className="space-y-6">
+            {isSignUp && (
+              <>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    required
+                  />
+                </div>
+              </>
+            )}
+            <div>
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-sky-500 text-white p-3 rounded-lg shadow-sm hover:bg-sky-600 transition duration-200"
+            >
+              {isSignUp ? 'Sign Up' : 'Login'}
+            </button>
+            <p className="mt-4 text-center">
+              {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+              <button
+                type="button"
+                onClick={() => setIsSignUp(!isSignUp)}
+                className="text-sky-500 hover:underline transition duration-200"
+              >
+                {isSignUp ? 'Login' : 'Sign Up'}
+              </button>
+            </p>
+            <div className="mt-4 text-center">
+              <Link href="/" className="text-sky-500 hover:underline transition duration-200">
+                Go to Front Page
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }
