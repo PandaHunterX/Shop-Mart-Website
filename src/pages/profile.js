@@ -51,6 +51,37 @@ export default function Profile() {
     setOrders(ordersData);
   };
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setUser(userCredential.user);
+        fetchOrders(userCredential.user.uid);
+      })
+      .catch((error) => {
+        alert('Invalid credentials');
+      });
+  };
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        setUser(userCredential.user);
+        await setDoc(doc(db, 'users', userCredential.user.uid), {
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+          firstName: firstName,
+          lastName: lastName,
+          createdAt: new Date()
+        });
+        fetchOrders(userCredential.user.uid);
+      })
+      .catch((error) => {
+        alert('Error signing up');
+      });
+    };
+
   const handleLogout = () => {
     signOut(auth).then(() => {
       setUser(null);
@@ -136,7 +167,7 @@ export default function Profile() {
             </p>
             <div className="mt-4 text-center">
               <Link href="/" className="text-sky-500 hover:underline transition duration-200">
-                Go to Front Page
+                Go to back to Home
               </Link>
             </div>
           </form>
