@@ -5,6 +5,7 @@ import "../app/globals.css";
 import { auth, db } from '../app/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
+import { serverTimestamp } from "firebase/firestore";
 
 const districts = { 
   "Arevalo, Iloilo City": ["Bonifacio (Arevalo)", "Calaparan", "Dulonan", "Mohon", "San Jose", "Santa Cruz", "Santo Domingo", "Santo Niño Norte", "Santo Niño Sur", "Sooc", "Yulo Drive"],
@@ -84,7 +85,7 @@ export default function Cart() {
             barangay: barangay,
           },
           totalPrice: totalPrice,
-          timestamp: new Date(),
+          timestamp: serverTimestamp(),
         });
         alert("Checkout successful! Order saved.");
         clearCart();
