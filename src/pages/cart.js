@@ -35,6 +35,7 @@ export default function Cart() {
   }, [cart]);
 
   useEffect(() => {
+    document.title = "Shop Mart | Shopping Cart";
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);

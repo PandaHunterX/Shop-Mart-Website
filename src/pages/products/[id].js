@@ -15,6 +15,10 @@ export default function ProductDetail({}) {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
+    document.title = `Shop Mart | ${product?.name || "Product"}`;
+  }, [product?.name]);
+
+  useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
     setCart(storedCart);
   }, []);

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { collection, getDocs, query, orderBy, limit, where, startAfter } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, where, startAfter, doc } from 'firebase/firestore';
 import { db } from '../app/firebase';
 import "../app/globals.css";
 
@@ -157,6 +157,7 @@ export default function Admin() {
   };
 
   useEffect(() => {
+    document.title = "Shop Mart | Admin Panel";
     fetchRecentOrders();
     fetchAllUsers();
     fetchSalesData();
@@ -224,7 +225,7 @@ export default function Admin() {
                 </p>
                 <p className="text-gray-500">
                   <span className="font-semibold">Address:</span>{" "}
-                  {order.address.district}, {order.address.barangay}
+                  {order.address.barangay}, {order.address.district}
                 </p>
               </li>
             ))}
@@ -291,7 +292,7 @@ export default function Admin() {
                       <span className="font-semibold">Ordered on:</span> {new Date(order.timestamp.seconds * 1000).toLocaleDateString()}
                     </p>
                     <p className="text-gray-500">
-                      <span className="font-semibold">Address:</span> {order.address.district}, {order.address.barangay}
+                      <span className="font-semibold">Address:</span> {order.address.barangay}, {order.address.district}
                     </p>
                   </li>
                 ))}

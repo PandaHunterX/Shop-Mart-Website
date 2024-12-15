@@ -23,6 +23,7 @@ export default function Profile() {
   const [totalMoneySpent, setTotalMoneySpent] = useState(0); // Initialize with 0
 
   useEffect(() => {
+    document.title = "Shop Mart | Profile Page";
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(user);
@@ -33,6 +34,7 @@ export default function Profile() {
           const userData = userDoc.data();
           setFirstName(userData.firstName);
           setLastName(userData.lastName);
+          document.title = `Shop Mart | ${userData.firstName} ${userData.lastName}'s Profile`;
         }
   
         // Fetch orders and calculate total money spent
