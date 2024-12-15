@@ -93,24 +93,36 @@ export default function Profile() {
       });
   };
 
+  const capitalizeWords = (str) => {
+    return str
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  };
+
   const handleSignUp = (e) => {
     e.preventDefault();
+  
+    // Capitalize first and last name
+    const formattedFirstName = capitalizeWords(firstName);
+    const formattedLastName = capitalizeWords(lastName);
+  
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         setUser(userCredential.user);
         await setDoc(doc(db, 'users', userCredential.user.uid), {
           uid: userCredential.user.uid,
           email: userCredential.user.email,
-          firstName: firstName,
-          lastName: lastName,
-          createdAt: new Date()
+          firstName: formattedFirstName,
+          lastName: formattedLastName,
+          createdAt: new Date(),
         });
         fetchOrders(userCredential.user.uid);
       })
       .catch((error) => {
         alert('Error signing up');
       });
-    };
+  };
 
   const handleLogout = () => {
     signOut(auth).then(() => {
