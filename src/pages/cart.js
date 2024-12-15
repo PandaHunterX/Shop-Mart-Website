@@ -6,6 +6,7 @@ import { auth, db } from '../app/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { serverTimestamp } from "firebase/firestore";
+import { useRouter } from 'next/router';
 
 const districts = { 
   "Arevalo, Iloilo City": ["Bonifacio (Arevalo)", "Calaparan", "Dulonan", "Mohon", "San Jose", "Santa Cruz", "Santo Domingo", "Santo Niño Norte", "Santo Niño Sur", "Sooc", "Yulo Drive"],
@@ -22,6 +23,7 @@ export default function Cart() {
   const [user, setUser] = useState(null);
   const [district, setDistrict] = useState("");
   const [barangay, setBarangay] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -95,23 +97,24 @@ export default function Cart() {
     } else {
       alert("Please log in to checkout.");
     }
+    router.push('/profile');
   };
 
   return (
-    <div className="container mx-auto p-4 bg-light-blue-100">
+    <div className="container mx-auto p-4 bg-gray-50 min-h-screen">
       {/* Navigation Bar */}
-      <div className="bg-gradient-to-r from-blue-500 to-light-blue-500 text-white p-4 flex justify-between items-center rounded-md">
-        <h1 className="text-2xl font-bold">Shopping Cart</h1>
+      <div className="bg-gradient-to-r from-blue-600 to-blue-400 text-white p-4 flex justify-between items-center rounded-lg shadow-md">
+        <h1 className="text-3xl font-extrabold tracking-wide">Shopping Cart</h1>
         <div className="flex space-x-4">
           <Link
             href="/"
-            className="md:text-2xl text-lg font-sans bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700"
+            className="md:text-lg text-sm font-medium bg-blue-700 px-4 py-2 rounded-lg shadow hover:bg-blue-800 transition-all duration-300"
           >
             Home
           </Link>
           <Link
             href="/profile"
-            className="md:text-2xl text-lg font-sans bg-blue-800 px-4 py-2 rounded-full hover:bg-blue-700"
+            className="md:text-lg text-sm font-medium bg-blue-900 px-4 py-2 rounded-lg shadow hover:bg-blue-800 transition-all duration-300"
           >
             Profile
           </Link>
@@ -119,25 +122,28 @@ export default function Cart() {
       </div>
 
       {/* Shopping Cart Section */}
-      <h1 className="text-3xl font-bold mt-4 mb-4"></h1>
-      <ShoppingCart
-        cart={cart}
-        removeFromCart={removeFromCart}
-        clearCart={clearCart}
-        updateQuantity={updateQuantity}
-      />
+      <div className="mt-8">
+        <div>
+          <ShoppingCart
+            cart={cart}
+            removeFromCart={removeFromCart}
+            clearCart={clearCart}
+            updateQuantity={updateQuantity}
+          />
+        </div>
+      </div>
 
       {/* Delivery Address Section */}
-      <div className="mt-6">
-        <h2 className="text-2xl font-semibold mb-4 text-blue-950">Delivery Address</h2>
-        <div className="bg-white shadow-lg rounded-lg p-6 space-y-6">
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold text-blue-900 mb-4">Delivery Address</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white shadow-md p-6 rounded-lg">
           {/* District */}
           <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg">
+            <div className="w-12 h-12 flex items-center justify-center bg-blue-600 text-white rounded-full text-lg shadow-md">
               📍
             </div>
             <div className="flex-1">
-              <label className="block text-gray-700 font-bold text-base md:text-lg mb-1">
+              <label className="block text-gray-700 font-semibold mb-2 text-lg">
                 District
               </label>
               <select
@@ -146,7 +152,7 @@ export default function Cart() {
                   setDistrict(e.target.value);
                   setBarangay("");
                 }}
-                className="w-full p-3 border text-sm md:text-base border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
               >
                 <option value="">Select District</option>
                 {Object.keys(districts).map((district) => (
@@ -160,17 +166,17 @@ export default function Cart() {
 
           {/* Barangay */}
           <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 flex items-center justify-center bg-blue-500 text-white rounded-full text-lg">
+            <div className="w-12 h-12 flex items-center justify-center bg-blue-600 text-white rounded-full text-lg shadow-md">
               🏠
             </div>
             <div className="flex-1">
-              <label className="block text-gray-700 font-bold text-base md:text-lg mb-1">
+              <label className="block text-gray-700 font-semibold mb-2 text-lg">
                 Barangay
               </label>
               <select
                 value={barangay}
                 onChange={(e) => setBarangay(e.target.value)}
-                className="w-full p-3 border text-sm md:text-base border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
               >
                 <option value="">Select Barangay</option>
                 {districts[district]?.map((barangay) => (
@@ -184,15 +190,16 @@ export default function Cart() {
         </div>
       </div>
 
-        {/* Checkout Button */}
-        <div className="mt-6 flex justify-center">
-          <button
-            onClick={handleCheckout}
-            className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full shadow-lg hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-purple-400 transform transition-transform hover:scale-105"
-          >
-            🛒 Proceed to Checkout
-          </button>
-        </div>
+      {/* Checkout Button */}
+      <div className="mt-8 flex justify-center">
+        <button
+          onClick={handleCheckout}
+          className="px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-full shadow-lg hover:from-purple-700 hover:to-indigo-700 hover:scale-105 transition-transform transform focus:ring-4 focus:ring-purple-400"
+        >
+          🛒 Proceed to Checkout
+        </button>
       </div>
+    </div>
+
   );
 }

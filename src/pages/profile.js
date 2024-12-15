@@ -20,24 +20,52 @@ export default function Profile() {
   const ordersPerPage = 3; // Limit orders per page
   const router = useRouter();
 
+  const [totalMoneySpent, setTotalMoneySpent] = useState(0); // Initialize with 0
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(user);
+  
+        // Fetch user details
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setFirstName(userData.firstName);
           setLastName(userData.lastName);
         }
+  
+        // Fetch orders and calculate total money spent
         fetchOrders(user.uid);
+        calculateTotalMoneySpent(user.uid); // Call the new function here
       } else {
         setUser(null);
         setOrders([]);
+        setTotalMoneySpent(0); // Reset the total if user logs out
       }
     });
+  
     return () => unsubscribe();
   }, []);
+
+  const calculateTotalMoneySpent = async (userId) => {
+    try {
+      const q = query(
+        collection(db, 'orders'),
+        where('userId', '==', userId) // Match orders for the logged-in user
+      );
+      const querySnapshot = await getDocs(q);
+  
+      const totalSpent = querySnapshot.docs.reduce((acc, doc) => {
+        const data = doc.data();
+        return acc + (data.totalPrice || 0); // Accumulate totalPrice for each order
+      }, 0);
+  
+      setTotalMoneySpent( totalSpent); // Update state with total money spent
+    } catch (error) {
+      console.error('Error calculating total money spent:', error);
+    }
+  };
 
   const fetchOrders = async (userId) => {
     const q = query(collection(db, 'orders'), where('userId', '==', userId));
@@ -179,26 +207,36 @@ export default function Profile() {
   return (
     <>
       {/* Header */}
-      <header className="bg-gradient-to-r from-indigo-700 to-sky-500 text-white py-10">
+      <header className="bg-gradient-to-r from-indigo-700 to-sky-500 text-white py-10 shadow-md">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-6 text-center md:text-left">
-          <div className="mb-6 md:mb-0">
-            <div className="flex items-center mb-8">
-              <FaUserCircle className="text-6xl text-white-700 mr-4" />
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold">Welcome, {firstName} {lastName}</h1>
-                <p className="text-white-500">{user.email}</p>
-              </div>
+          {/* User Info Section */}
+          <div className="mb-6 md:mb-0 flex items-center space-x-6">
+            <FaUserCircle className="text-6xl text-white-700" />
+            <div>
+              <h1 className="text-xl md:text-3xl font-bold">
+                Welcome, {firstName} {lastName}
+              </h1>
+              <p className="text-white-300">{user.email}</p>
+              {/* Total Money Spent */}
+              <p className="text-sm md:text-lg font-medium mt-2">
+                Total Money Spent:{" "}
+                <span className="bg-sky-100 text-black text-sm md:text-lg py-1 px-3 rounded-md shadow-lg">
+                  ₱{totalMoneySpent.toFixed(2)}
+                </span>
+              </p>
             </div>
           </div>
+
+          {/* Navigation Section */}
           <nav className="space-x-4">
             <Link href="/" className="text-sky-500 hover:underline transition duration-200">
-              <button className="bg-blue-900 text-white px-6 py-3 rounded-lg shadow-sm hover:bg-blue-600 transition duration-200">
-                Go back to home
+              <button className="bg-blue-900 text-white px-4 py-2 md:px-6 md:py-3 rounded-lg shadow-sm hover:bg-blue-600 transition duration-200">
+                Go Back to Home
               </button>
             </Link>
             <button
               onClick={handleLogout}
-              className="bg-red-500 text-white px-4 py-3 rounded-lg shadow-sm hover:bg-red-600 transition duration-200 text-sm"
+              className="bg-red-500 text-white  px-2 py-2 md:px-4 md:py-3 rounded-lg shadow-sm hover:bg-red-600 transition duration-200 text-sm"
             >
               Logout
             </button>
@@ -236,7 +274,7 @@ export default function Profile() {
                     <div className="flex-1">
                       <p className="font-medium text-gray-700">{item.name}</p>
                       <p className="text-sm text-gray-500">
-                        Quantity: {item.quantity} | Price: ₱{item.price.toFixed(2)}
+                        Quantity: {item.quantity} | Price: ₱{item.price.toFixed(2) * item.quantity}
                       </p>
                       <p className="text-sm font-semibold text-indigo-700">
                         Total: ₱{(item.price * item.quantity).toFixed(2)}
