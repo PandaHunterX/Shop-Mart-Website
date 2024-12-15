@@ -288,7 +288,7 @@ export default function Profile() {
                     <div className="flex-1">
                       <p className="font-medium text-gray-700">{item.name}</p>
                       <p className="text-sm text-gray-500">
-                        Quantity: {item.quantity} | Price: ₱{item.price.toFixed(2) * item.quantity}
+                        Quantity: {item.quantity} | Price: ₱{item.price.toFixed(2)}
                       </p>
                       <p className="text-sm font-semibold text-indigo-700">
                         Total: ₱{(item.price * item.quantity).toFixed(2)}
